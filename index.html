@@ -3,89 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Counter Website</title>
-    <style>
-        /* CSS: Makes the website look nice and centers everything */
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f2f5;
-        }
-
-        .container {
-            text-align: center;
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-
-        h1 {
-            color: #333;
-            margin-bottom: 10px;
-        }
-
-        #count-display {
-            font-size: 5rem;
-            font-weight: bold;
-            color: #007bff;
-            margin: 20px 0;
-        }
-
-        button {
-            padding: 15px 30px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: white;
-            background-color: #007bff;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.2s, transform 0.1s;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        button:active {
-            transform: scale(0.95);
-        }
-    </style>
+    <title>My Game Wiki</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="container">
-        <h1>Counter</h1>
-        <!-- This is where the number is displayed -->
-        <div id="count-display">0</div>
-        <!-- This is the button the user clicks -->
-        <button id="increment-btn">Click to Count</button>
+    <div id="admin-bar">
+        <span id="edit-status">Viewing Mode</span>
+        <button id="auth-btn" onclick="toggleAdmin()">Unlock Edit Mode</button>
+        <button id="save-btn" style="display:none;" onclick="saveContent()">Save Changes</button>
     </div>
 
-    <script>
-        // JavaScript: The logic that makes the button work
-        
-        // 1. Initialize the count variable at 0
-        let count = 0;
+    <div class="wiki-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="logo">GAME WIKI</div>
+            <ul id="nav-links">
+                <li onclick="loadPage('home')">Home</li>
+                <li onclick="loadPage('characters')">Characters</li>
+                <li onclick="loadPage('items')">Items & Loot</li>
+                <li onclick="loadPage('world')">The World</li>
+            </ul>
+            <button id="add-page-btn" style="display:none;" onclick="createNewPage()">+ New Page</button>
+        </nav>
 
-        // 2. Select the elements from the page
-        const display = document.getElementById('count-display');
-        const button = document.getElementById('increment-btn');
+        <!-- Main Content Area -->
+        <main class="content">
+            <h1 id="page-title">Welcome to the Wiki</h1>
+            <div id="page-body">
+                Select a page from the sidebar to begin.
+            </div>
+        </main>
+    </div>
 
-        // 3. Add a "listener" that waits for a click
-        button.addEventListener('click', () => {
-            // Increase the count by 1
-            count = count + 1;
-            
-            // Update the text on the screen
-            display.innerText = count;
-        });
-    </script>
-
+    <script src="script.js"></script>
 </body>
 </html>
