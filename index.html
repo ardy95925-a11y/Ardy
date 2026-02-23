@@ -3,349 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pro Game Wiki</title>
-    <style>
-        :root {
-            --bg: #ffffff;
-            --sidebar-bg: #f8f9fa;
-            --text: #2d3436;
-            --accent: #6c5ce7;
-            --border: #dfe6e9;
-            --sidebar-width: 280px;
-            --header-height: 60px;
-            --shadow: 0 4px 12px rgba(0,0,0,0.08);
-        }
-
-        [data-theme="dark"] {
-            --bg: #1e1e2e;
-            --sidebar-bg: #181825;
-            --text: #cdd6f4;
-            --accent: #fab387;
-            --border: #313244;
-        }
-
-        * { box-sizing: border-box; transition: background 0.3s, color 0.3s; }
-
-        body {
-            margin: 0;
-            font-family: 'Inter', -apple-system, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            display: flex;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        /* Sidebar */
-        aside {
-            width: var(--sidebar-width);
-            background: var(--sidebar-bg);
-            border-right: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-            z-index: 10;
-        }
-
-        .logo-area {
-            font-size: 1.5rem;
-            font-weight: 800;
-            margin-bottom: 20px;
-            color: var(--accent);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        #search-input {
-            width: 100%;
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            background: var(--bg);
-            color: var(--text);
-            margin-bottom: 20px;
-        }
-
-        .nav-list {
-            flex: 1;
-            overflow-y: auto;
-            list-style: none;
-            padding: 0;
-        }
-
-        .nav-item {
-            padding: 10px 15px;
-            margin-bottom: 5px;
-            border-radius: 6px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .nav-item:hover { background: var(--border); }
-        .nav-item.active { background: var(--accent); color: white; }
-
-        /* Main Content */
-        main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-        }
-
-        header {
-            height: var(--header-height);
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 40px;
-            background: var(--bg);
-            position: sticky;
-            top: 0;
-        }
-
-        .content-area {
-            max-width: 900px;
-            margin: 40px auto;
-            width: 90%;
-            padding-bottom: 100px;
-        }
-
-        #page-title {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            outline: none;
-        }
-
-        #page-content {
-            font-size: 1.1rem;
-            line-height: 1.7;
-            outline: none;
-            min-height: 400px;
-        }
-
-        /* Toolbar */
-        .toolbar {
-            display: none;
-            background: var(--sidebar-bg);
-            border: 1px solid var(--border);
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            gap: 10px;
-            position: sticky;
-            top: 70px;
-            z-index: 5;
-            box-shadow: var(--shadow);
-        }
-
-        .toolbar button, .toolbar input[type="color"] {
-            background: var(--bg);
-            border: 1px solid var(--border);
-            color: var(--text);
-            padding: 5px 10px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .toolbar button:hover { background: var(--accent); color: white; }
-
-        /* Admin Controls */
-        .btn {
-            padding: 8px 16px;
-            border-radius: 6px;
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-        }
-
-        .btn-primary { background: var(--accent); color: white; }
-        
-        #admin-controls { display: flex; gap: 10px; }
-
-        .hidden { display: none !important; }
-
-        /* Images */
-        img {
-            max-width: 100%;
-            border-radius: 12px;
-            margin: 20px 0;
-            box-shadow: var(--shadow);
-        }
-
-        /* Settings Modal */
-        #settings-modal {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: var(--bg);
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-            z-index: 100;
-            display: none;
-            border: 1px solid var(--border);
-        }
-    </style>
+    <title>Tower Front | Official Wiki</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts for a tactical look -->
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Roboto+Mono&display=swap" rel="stylesheet">
 </head>
-<body data-theme="light">
+<body>
 
-    <aside>
-        <div class="logo-area">🛡️ GameWiki</div>
-        <input type="text" id="search-input" placeholder="Search pages..." oninput="searchPages()">
-        <ul class="nav-list" id="nav-list"></ul>
-        <button class="btn btn-primary hidden" id="add-page-btn" onclick="addNewPage()">+ New Page</button>
-    </aside>
-
-    <main>
-        <header>
-            <div id="breadcrumb">Home / <span id="current-crumb">Welcome</span></div>
-            <div id="admin-controls">
-                <button class="btn" onclick="toggleTheme()">🌓 Theme</button>
-                <button class="btn btn-primary" id="login-btn" onclick="handleAuth()">Login to Edit</button>
-                <button class="btn btn-primary hidden" id="save-btn" onclick="saveData()">Save Changes</button>
-                <button class="btn hidden" id="logout-btn" onclick="logout()">Lock</button>
+    <!-- Top Navigation -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">TOWER<span>FRONT</span> WIKI</div>
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#towers">Towers</a></li>
+                <li><a href="#enemies">Enemies</a></li>
+                <li><a href="#maps">Maps</a></li>
+                <li><a href="#mechanics">Mechanics</a></li>
+            </ul>
+            <div class="search-bar">
+                <input type="text" placeholder="Search the database...">
             </div>
-        </header>
+        </nav>
+    </header>
 
-        <div class="content-area">
-            <div class="toolbar" id="toolbar">
-                <button onclick="format('bold')"><b>B</b></button>
-                <button onclick="format('italic')"><i>I</i></button>
-                <button onclick="format('insertUnorderedList')">• List</button>
-                <button onclick="format('formatBlock', 'h2')">H2</button>
-                <button onclick="document.getElementById('img-upload').click()">🖼️ Add Image</button>
-                <input type="file" id="img-upload" class="hidden" accept="image/*" onchange="insertImage(event)">
-                <input type="color" onchange="document.documentElement.style.setProperty('--accent', this.value)" title="Change Theme Color">
-            </div>
-
-            <h1 id="page-title" contenteditable="false">Welcome to your Wiki</h1>
-            <div id="page-content" contenteditable="false">
-                Click "Login" and enter your password to start building your game world.
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>WELCOME TO THE FRONT</h1>
+            <p>Your ultimate resource for Tower Front strategies, stats, and updates.</p>
+            <div class="hero-btns">
+                <a href="#towers" class="btn primary">View Towers</a>
+                <a href="#enemies" class="btn secondary">Identify Threats</a>
             </div>
         </div>
+    </section>
+
+    <!-- Wiki Categories -->
+    <main class="container">
+        <section id="categories" class="grid">
+            
+            <!-- Category: Towers -->
+            <div class="card" id="towers">
+                <div class="card-header">
+                    <h2>🛡️ TOWERS</h2>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li><a href="#">Shooter</a> - All-rounder starter unit.</li>
+                        <li><a href="#">Shotgunner</a> - High damage, short range.</li>
+                        <li><a href="#">Hunter</a> - Long-range sniper specialized in stealth detection.</li>
+                        <li><a href="#">Juggernaut</a> - Tanky defense with heavy firepower.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Category: Enemies -->
+            <div class="card" id="enemies">
+                <div class="card-header">
+                    <h2>💀 ENEMIES</h2>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li><a href="#">Venitant</a> - Shield-breaking specialist.</li>
+                        <li><a href="#">Trojan Horse</a> - Spawns minions upon destruction.</li>
+                        <li><a href="#">Medic</a> - Heals surrounding enemy waves.</li>
+                        <li><a href="#">Tanky Zombie</a> - High HP front-liner.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Category: Maps -->
+            <div class="card" id="maps">
+                <div class="card-header">
+                    <h2>🗺️ MAPS</h2>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li><a href="#">Advisor Cliff</a> - Tactical verticality.</li>
+                        <li><a href="#">Islands</a> - Multi-lane water-based combat.</li>
+                        <li><a href="#">Crashed Front</a> - Post-apocalyptic wasteland.</li>
+                    </ul>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Recent Updates Section -->
+        <section class="updates">
+            <h3>Latest Intel</h3>
+            <div class="update-item">
+                <span class="date">[FEB 2026]</span>
+                <p>New Tower Added: <strong>Operator</strong>. Focuses on SMG rapid fire and stealth detection.</p>
+            </div>
+            <div class="update-item">
+                <span class="date">[JAN 2026]</span>
+                <p>Balance Patch: Shotgunner range increased by 5%. Venitant speed reduced.</p>
+            </div>
+        </section>
     </main>
 
-    <script>
-        // --- DATA MANAGEMENT ---
-        const defaultData = {
-            "home": { title: "Home Page", content: "Welcome to your new professional Game Wiki! Edit this page to get started." },
-            "lore": { title: "World Lore", content: "Write about the history of your world here..." }
-        };
+    <footer>
+        <p>&copy; 2026 Tower Front Wiki Community. All Rights Reserved.</p>
+    </footer>
 
-        let wikiData = JSON.parse(localStorage.getItem('proWikiData')) || defaultData;
-        let currentPage = 'home';
-        let isEditing = false;
-
-        // --- AUTHENTICATION ---
-        function handleAuth() {
-            const pass = prompt("Enter Admin Password:");
-            if (pass === "0p0p") {
-                isEditing = true;
-                document.getElementById('login-btn').classList.add('hidden');
-                document.getElementById('logout-btn').classList.remove('hidden');
-                document.getElementById('save-btn').classList.remove('hidden');
-                document.getElementById('add-page-btn').classList.remove('hidden');
-                document.getElementById('toolbar').style.display = 'flex';
-                
-                document.getElementById('page-title').contentEditable = true;
-                document.getElementById('page-content').contentEditable = true;
-            } else {
-                alert("Access Denied.");
-            }
-        }
-
-        function logout() {
-            location.reload(); // Simplest way to lock everything down
-        }
-
-        // --- CORE FUNCTIONALITY ---
-        function renderNav(filter = "") {
-            const list = document.getElementById('nav-list');
-            list.innerHTML = '';
-            
-            Object.keys(wikiData).forEach(key => {
-                if (wikiData[key].title.toLowerCase().includes(filter.toLowerCase())) {
-                    const li = document.createElement('li');
-                    li.className = `nav-item ${currentPage === key ? 'active' : ''}`;
-                    li.innerHTML = `<span>${wikiData[key].title}</span>`;
-                    if(isEditing && key !== 'home') {
-                        li.innerHTML += `<span onclick="deletePage(event, '${key}')">🗑️</span>`;
-                    }
-                    li.onclick = () => loadPage(key);
-                    list.appendChild(li);
-                }
-            });
-        }
-
-        function loadPage(key) {
-            currentPage = key;
-            const page = wikiData[key];
-            document.getElementById('page-title').innerText = page.title;
-            document.getElementById('page-content').innerHTML = page.content;
-            document.getElementById('current-crumb').innerText = page.title;
-            renderNav();
-        }
-
-        function saveData() {
-            wikiData[currentPage].title = document.getElementById('page-title').innerText;
-            wikiData[currentPage].content = document.getElementById('page-content').innerHTML;
-            localStorage.setItem('proWikiData', JSON.stringify(wikiData));
-            renderNav();
-            alert("Changes saved to local storage!");
-        }
-
-        function addNewPage() {
-            const title = prompt("Enter Page Title:");
-            if (title) {
-                const id = title.toLowerCase().replace(/\s+/g, '-');
-                wikiData[id] = { title: title, content: "New page content..." };
-                loadPage(id);
-            }
-        }
-
-        function deletePage(e, key) {
-            e.stopPropagation();
-            if(confirm("Delete this page?")) {
-                delete wikiData[key];
-                loadPage('home');
-            }
-        }
-
-        // --- EDITOR FUNCTIONS ---
-        function format(command, value = null) {
-            document.execCommand(command, false, value);
-        }
-
-        function insertImage(event) {
-            const file = event.target.files[0];
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = `<img src="${e.target.result}" />`;
-                document.execCommand('insertHTML', false, img);
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function searchPages() {
-            const term = document.getElementById('search-input').value;
-            renderNav(term);
-        }
-
-        function toggleTheme() {
-            const body = document.body;
-            const newTheme = body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-            body.setAttribute('data-theme', newTheme);
-        }
-
-        // Initialize
-        renderNav();
-        loadPage('home');
-
-    </script>
 </body>
 </html>
