@@ -3,109 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tower Front | Official Wiki</title>
+    <title>Tower Front | Intelligence Database</title>
+    <!-- Tactical Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <!-- Google Fonts for a tactical look -->
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Roboto+Mono&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <!-- Top Navigation -->
+    <!-- Tactical Overlay Background -->
+    <div class="scanline"></div>
+
     <header>
         <nav class="navbar">
-            <div class="logo">TOWER<span>FRONT</span> WIKI</div>
+            <div class="logo">
+                <span class="glitch" data-text="TOWERFRONT">TOWERFRONT</span>
+                <span class="sub-logo">SYSTEM DATA // 2.24.26</span>
+            </div>
+            
+            <button class="mobile-toggle" aria-label="Open Menu">☰</button>
+            
             <ul class="nav-links">
-                <li><a href="#">Home</a></li>
-                <li><a href="#towers">Towers</a></li>
-                <li><a href="#enemies">Enemies</a></li>
-                <li><a href="#maps">Maps</a></li>
-                <li><a href="#mechanics">Mechanics</a></li>
+                <li><a href="#" class="active">HOME</a></li>
+                <li><a href="#towers">TOWERS</a></li>
+                <li><a href="#enemies">THREATS</a></li>
+                <li><a href="#maps">SECTORS</a></li>
             </ul>
-            <div class="search-bar">
-                <input type="text" placeholder="Search the database...">
+
+            <div class="search-container">
+                <input type="text" id="dbSearch" placeholder="[ SEARCH_DATABASE... ]">
+                <span class="search-icon">⌕</span>
             </div>
         </nav>
     </header>
 
-    <!-- Hero Section -->
     <section class="hero">
+        <div class="hero-overlay"></div>
         <div class="hero-content">
-            <h1>WELCOME TO THE FRONT</h1>
-            <p>Your ultimate resource for Tower Front strategies, stats, and updates.</p>
+            <div class="status-badge">SYSTEM STATUS: ONLINE</div>
+            <h1>OPERATIONAL COMMAND</h1>
+            <p>Accessing encrypted tactical data for Tower Front defensive operations.</p>
             <div class="hero-btns">
-                <a href="#towers" class="btn primary">View Towers</a>
-                <a href="#enemies" class="btn secondary">Identify Threats</a>
+                <a href="#towers" class="btn primary">DEPLOY TOWERS</a>
+                <a href="#enemies" class="btn outline">ANALYSIS THREATS</a>
             </div>
         </div>
     </section>
 
-    <!-- Wiki Categories -->
     <main class="container">
-        <section id="categories" class="grid">
+        <!-- Categories Grid -->
+        <section class="wiki-grid">
             
-            <!-- Category: Towers -->
-            <div class="card" id="towers">
-                <div class="card-header">
-                    <h2>🛡️ TOWERS</h2>
-                </div>
-                <div class="card-body">
-                    <ul>
-                        <li><a href="#">Shooter</a> - All-rounder starter unit.</li>
-                        <li><a href="#">Shotgunner</a> - High damage, short range.</li>
-                        <li><a href="#">Hunter</a> - Long-range sniper specialized in stealth detection.</li>
-                        <li><a href="#">Juggernaut</a> - Tanky defense with heavy firepower.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Category: Enemies -->
-            <div class="card" id="enemies">
-                <div class="card-header">
-                    <h2>💀 ENEMIES</h2>
-                </div>
-                <div class="card-body">
-                    <ul>
-                        <li><a href="#">Venitant</a> - Shield-breaking specialist.</li>
-                        <li><a href="#">Trojan Horse</a> - Spawns minions upon destruction.</li>
-                        <li><a href="#">Medic</a> - Heals surrounding enemy waves.</li>
-                        <li><a href="#">Tanky Zombie</a> - High HP front-liner.</li>
-                    </ul>
+            <!-- TOWERS -->
+            <div class="category-block" id="towers">
+                <h2 class="section-title"><span class="icon">🛡️</span> DEFENSIVE UNITS</h2>
+                <div class="card-grid">
+                    <div class="wiki-card tower">
+                        <div class="card-tag">NEW</div>
+                        <h3>Operator</h3>
+                        <p>Specialized stealth detection and SMG rapid response.</p>
+                        <div class="stats">
+                            <span>SPD: ★★★★</span>
+                            <span>RNG: ★★</span>
+                        </div>
+                    </div>
+                    <div class="wiki-card tower">
+                        <h3>Hunter</h3>
+                        <p>Long-range kinetic precision. Critical stealth detection unit.</p>
+                        <div class="stats">
+                            <span>SPD: ★★</span>
+                            <span>RNG: ★★★★★</span>
+                        </div>
+                    </div>
+                    <!-- Add more cards here -->
                 </div>
             </div>
 
-            <!-- Category: Maps -->
-            <div class="card" id="maps">
-                <div class="card-header">
-                    <h2>🗺️ MAPS</h2>
-                </div>
-                <div class="card-body">
-                    <ul>
-                        <li><a href="#">Advisor Cliff</a> - Tactical verticality.</li>
-                        <li><a href="#">Islands</a> - Multi-lane water-based combat.</li>
-                        <li><a href="#">Crashed Front</a> - Post-apocalyptic wasteland.</li>
-                    </ul>
+            <!-- ENEMIES -->
+            <div class="category-block" id="enemies">
+                <h2 class="section-title"><span class="icon">💀</span> THREAT PROFILES</h2>
+                <div class="card-grid">
+                    <div class="wiki-card enemy">
+                        <h3>Venitant</h3>
+                        <p>High threat. Specialized in breaking energy shields.</p>
+                        <div class="danger-level">CLASS: ALPHA</div>
+                    </div>
+                    <div class="wiki-card enemy">
+                        <h3>Trojan Horse</h3>
+                        <p>Decoy unit. Releases sub-entities upon destruction.</p>
+                        <div class="danger-level">CLASS: BETA</div>
+                    </div>
                 </div>
             </div>
-
         </section>
 
-        <!-- Recent Updates Section -->
-        <section class="updates">
-            <h3>Latest Intel</h3>
-            <div class="update-item">
-                <span class="date">[FEB 2026]</span>
-                <p>New Tower Added: <strong>Operator</strong>. Focuses on SMG rapid fire and stealth detection.</p>
+        <!-- Sidebar Style Updates -->
+        <aside class="intel-feed">
+            <div class="feed-header">LATEST INTEL FEED</div>
+            <div class="feed-body">
+                <article class="update-log">
+                    <span class="timestamp">02.24.2026</span>
+                    <p><strong>OPERATOR UNIT DEPLOYED:</strong> Rapid fire SMG capabilities confirmed.</p>
+                </article>
+                <article class="update-log">
+                    <span class="timestamp">01.15.2026</span>
+                    <p><strong>PATCH 1.04:</strong> Shotgunner spray pattern tightened by 5%.</p>
+                </article>
             </div>
-            <div class="update-item">
-                <span class="date">[JAN 2026]</span>
-                <p>Balance Patch: Shotgunner range increased by 5%. Venitant speed reduced.</p>
-            </div>
-        </section>
+        </aside>
     </main>
 
     <footer>
-        <p>&copy; 2026 Tower Front Wiki Community. All Rights Reserved.</p>
+        <div class="footer-content">
+            <p>TOWER FRONT // ENCRYPTED COMMUNITY DATA BASE</p>
+            <p class="copyright">&copy; 2026 COMMAND CENTER. ALL RIGHTS RESERVED.</p>
+        </div>
     </footer>
 
+    <script src="script.js"></script>
 </body>
 </html>
