@@ -3,122 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tower Front | Intelligence Database</title>
-    <!-- Tactical Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <title>Operator | Tower Front Wiki</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <!-- Tactical Overlay Background -->
-    <div class="scanline"></div>
-
-    <header>
-        <nav class="navbar">
-            <div class="logo">
-                <span class="glitch" data-text="TOWERFRONT">TOWERFRONT</span>
-                <span class="sub-logo">SYSTEM DATA // 2.24.26</span>
-            </div>
-            
-            <button class="mobile-toggle" aria-label="Open Menu">☰</button>
-            
-            <ul class="nav-links">
-                <li><a href="#" class="active">HOME</a></li>
-                <li><a href="#towers">TOWERS</a></li>
-                <li><a href="#enemies">THREATS</a></li>
-                <li><a href="#maps">SECTORS</a></li>
-            </ul>
-
-            <div class="search-container">
-                <input type="text" id="dbSearch" placeholder="[ SEARCH_DATABASE... ]">
-                <span class="search-icon">⌕</span>
-            </div>
-        </nav>
-    </header>
-
-    <section class="hero">
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <div class="status-badge">SYSTEM STATUS: ONLINE</div>
-            <h1>OPERATIONAL COMMAND</h1>
-            <p>Accessing encrypted tactical data for Tower Front defensive operations.</p>
-            <div class="hero-btns">
-                <a href="#towers" class="btn primary">DEPLOY TOWERS</a>
-                <a href="#enemies" class="btn outline">ANALYSIS THREATS</a>
-            </div>
+    <!-- Top Navbar -->
+    <nav class="top-nav">
+        <div class="logo">TOWER<span>FRONT</span> WIKI</div>
+        <div class="search-box">
+            <input type="text" id="wikiSearch" placeholder="Search Tower Front Wiki...">
         </div>
-    </section>
+    </nav>
 
-    <main class="container">
-        <!-- Categories Grid -->
-        <section class="wiki-grid">
-            
-            <!-- TOWERS -->
-            <div class="category-block" id="towers">
-                <h2 class="section-title"><span class="icon">🛡️</span> DEFENSIVE UNITS</h2>
-                <div class="card-grid">
-                    <div class="wiki-card tower">
-                        <div class="card-tag">NEW</div>
-                        <h3>Operator</h3>
-                        <p>Specialized stealth detection and SMG rapid response.</p>
-                        <div class="stats">
-                            <span>SPD: ★★★★</span>
-                            <span>RNG: ★★</span>
-                        </div>
-                    </div>
-                    <div class="wiki-card tower">
-                        <h3>Hunter</h3>
-                        <p>Long-range kinetic precision. Critical stealth detection unit.</p>
-                        <div class="stats">
-                            <span>SPD: ★★</span>
-                            <span>RNG: ★★★★★</span>
-                        </div>
-                    </div>
-                    <!-- Add more cards here -->
-                </div>
+    <div class="wiki-wrapper">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <h3>Main</h3>
+                <ul>
+                    <li><a href="#">Main Page</a></li>
+                    <li><a href="#">Recent Changes</a></li>
+                    <li><a href="#">Random Page</a></li>
+                </ul>
             </div>
-
-            <!-- ENEMIES -->
-            <div class="category-block" id="enemies">
-                <h2 class="section-title"><span class="icon">💀</span> THREAT PROFILES</h2>
-                <div class="card-grid">
-                    <div class="wiki-card enemy">
-                        <h3>Venitant</h3>
-                        <p>High threat. Specialized in breaking energy shields.</p>
-                        <div class="danger-level">CLASS: ALPHA</div>
-                    </div>
-                    <div class="wiki-card enemy">
-                        <h3>Trojan Horse</h3>
-                        <p>Decoy unit. Releases sub-entities upon destruction.</p>
-                        <div class="danger-level">CLASS: BETA</div>
-                    </div>
-                </div>
+            <div class="sidebar-section">
+                <h3>Database</h3>
+                <ul>
+                    <li><a href="#" class="active">Towers</a></li>
+                    <li><a href="#">Enemies</a></li>
+                    <li><a href="#">Maps</a></li>
+                    <li><a href="#">Game Mechanics</a></li>
+                </ul>
             </div>
-        </section>
-
-        <!-- Sidebar Style Updates -->
-        <aside class="intel-feed">
-            <div class="feed-header">LATEST INTEL FEED</div>
-            <div class="feed-body">
-                <article class="update-log">
-                    <span class="timestamp">02.24.2026</span>
-                    <p><strong>OPERATOR UNIT DEPLOYED:</strong> Rapid fire SMG capabilities confirmed.</p>
-                </article>
-                <article class="update-log">
-                    <span class="timestamp">01.15.2026</span>
-                    <p><strong>PATCH 1.04:</strong> Shotgunner spray pattern tightened by 5%.</p>
-                </article>
+            <div class="sidebar-section">
+                <h3>Community</h3>
+                <ul>
+                    <li><a href="#">Discord</a></li>
+                    <li><a href="#">Dev Blog</a></li>
+                </ul>
             </div>
         </aside>
-    </main>
 
-    <footer>
-        <div class="footer-content">
-            <p>TOWER FRONT // ENCRYPTED COMMUNITY DATA BASE</p>
-            <p class="copyright">&copy; 2026 COMMAND CENTER. ALL RIGHTS RESERVED.</p>
-        </div>
-    </footer>
+        <!-- Main Content Area -->
+        <main class="content">
+            <nav class="breadcrumbs">
+                <a href="#">Home</a> / <a href="#">Towers</a> / Operator
+            </nav>
 
-    <script src="script.js"></script>
+            <header class="page-header">
+                <h1>Operator</h1>
+                <hr>
+            </header>
+
+            <div class="page-body">
+                <!-- Infobox (The Wiki Essential) -->
+                <aside class="infobox">
+                    <div class="infobox-title">Operator</div>
+                    <div class="infobox-image">
+                        <div class="placeholder-img">UNIT_IMAGE</div>
+                    </div>
+                    <table class="infobox-table">
+                        <tr><th colspan="2">Unit Info</th></tr>
+                        <tr><td>Type</td><td>Ground / Stealth</td></tr>
+                        <tr><td>Placement</td><td>Ground</td></tr>
+                        <tr><td>Cost</td><td>$450</td></tr>
+                        <tr><td>Rarity</td><td><span class="rarity-rare">Rare</span></td></tr>
+                    </table>
+                </aside>
+
+                <p>The <strong>Operator</strong> is a specialized tactical unit focused on rapid-fire engagement and hidden threat detection. Unlike the standard Shooter, the Operator uses an SMG with high fire rates but lower per-bullet damage.</p>
+
+                <h2>Overview</h2>
+                <p>The Operator is essential for mid-game waves where stealth-based enemies like the <em>Shadow Stalker</em> begin to appear. Their high fire rate makes them excellent at handling crowds of weak enemies.</p>
+
+                <h2>Level Stats</h2>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Level</th>
+                            <th>Upgrade Cost</th>
+                            <th>Damage</th>
+                            <th>Fire Rate</th>
+                            <th>Abilities</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>-</td>
+                            <td>5</td>
+                            <td>0.1s</td>
+                            <td>Basic Stealth Detection</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>$200</td>
+                            <td>8</td>
+                            <td>0.1s</td>
+                            <td>Increased Range</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>$550</td>
+                            <td>12</td>
+                            <td>0.08s</td>
+                            <td>Armor Piercing Rounds</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>Trivia</h2>
+                <ul>
+                    <li>The Operator was the first unit added during the Beta phase.</li>
+                    <li>Their character model is based on urban recon specialists.</li>
+                </ul>
+            </div>
+        </main>
+    </div>
+
 </body>
 </html>
