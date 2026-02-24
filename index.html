@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tower Front Official Wiki</title>
+    <title>Tower Front | Official Intelligence Database</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -15,6 +15,7 @@
             --text-secondary: #aaaaaa;
             --border: #333333;
             --wiki-link: #4daafc;
+            --danger: #ff4444;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -22,242 +23,252 @@
 
         /* Navigation */
         .top-nav { height: 60px; background: #000; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; border-bottom: 2px solid var(--accent); position: sticky; top: 0; z-index: 1000; }
-        .logo { font-weight: 800; cursor: pointer; }
+        .logo { font-weight: 800; cursor: pointer; letter-spacing: 1px; }
         .logo span { color: var(--accent); }
         
-        .search-container { position: relative; }
         #wikiSearch { background: #222; border: 1px solid var(--border); padding: 8px 15px; border-radius: 4px; color: white; width: 300px; outline: none; }
-        #searchResults { position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-card); border: 1px solid var(--border); display: none; max-height: 200px; overflow-y: auto; z-index: 10; }
-        .search-item { padding: 10px; cursor: pointer; border-bottom: 1px solid var(--border); }
-        .search-item:hover { background: #333; color: var(--accent); }
 
         /* Layout */
         .wiki-wrapper { display: flex; flex: 1; overflow: hidden; max-width: 1600px; margin: 0 auto; width: 100%; }
 
-        .sidebar { width: 260px; background: var(--bg-sidebar); padding: 20px; border-right: 1px solid var(--border); overflow-y: auto; }
-        .sidebar-section h3 { font-size: 0.7rem; color: var(--accent); text-transform: uppercase; margin: 20px 0 10px; letter-spacing: 1px; }
+        .sidebar { width: 280px; background: var(--bg-sidebar); padding: 20px; border-right: 1px solid var(--border); overflow-y: auto; }
+        .sidebar-section h3 { font-size: 0.7rem; color: var(--accent); text-transform: uppercase; margin: 20px 0 10px; letter-spacing: 1px; border-bottom: 1px solid #333; padding-bottom: 5px; }
         .sidebar ul { list-style: none; }
-        .sidebar li { margin-bottom: 5px; }
-        .sidebar a { text-decoration: none; color: var(--text-secondary); font-size: 0.9rem; transition: 0.2s; cursor: pointer; }
-        .sidebar a:hover { color: var(--wiki-link); padding-left: 5px; }
-        .sidebar a.active { color: var(--accent); font-weight: bold; }
+        .sidebar li { margin-bottom: 8px; }
+        .sidebar a { text-decoration: none; color: var(--text-secondary); font-size: 0.9rem; transition: 0.2s; cursor: pointer; display: block; }
+        .sidebar a:hover { color: var(--wiki-link); transform: translateX(5px); }
 
-        .content { flex: 1; padding: 40px; overflow-y: auto; background: var(--bg-main); }
-        .breadcrumbs { font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 10px; }
-        .page-header h1 { font-size: 2.5rem; margin-bottom: 5px; }
-        hr { border: 0; border-top: 1px solid var(--border); margin-bottom: 20px; }
+        .content { flex: 1; padding: 40px; overflow-y: auto; background: var(--bg-main); scroll-behavior: smooth; }
+        .page-header h1 { font-size: 2.8rem; margin-bottom: 5px; font-weight: 800; }
+        hr { border: 0; border-top: 1px solid var(--border); margin: 15px 0 25px; }
 
-        /* Wiki Elements */
-        .infobox { float: right; width: 300px; background: var(--bg-card); border: 1px solid var(--border); margin: 0 0 20px 20px; padding: 10px; }
-        .infobox-title { text-align: center; font-weight: bold; background: var(--accent); color: black; padding: 5px; margin: -10px -10px 10px -10px; }
-        .infobox-img { width: 100%; height: 150px; background: #333; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; font-weight: bold; color: #555; }
+        /* Content Elements */
+        .infobox { float: right; width: 320px; background: var(--bg-card); border: 1px solid var(--border); margin: 0 0 20px 20px; padding: 15px; border-radius: 4px; }
+        .infobox-title { text-align: center; font-weight: bold; background: var(--accent); color: black; padding: 8px; margin: -15px -15px 15px -15px; text-transform: uppercase; }
         .infobox table { width: 100%; font-size: 0.85rem; border-collapse: collapse; }
-        .infobox td { padding: 5px; border-bottom: 1px solid #333; }
-        .infobox td:first-child { font-weight: bold; color: var(--text-secondary); }
+        .infobox td { padding: 8px 0; border-bottom: 1px solid #333; }
+        .infobox td:first-child { font-weight: bold; color: var(--text-secondary); width: 40%; }
 
-        .data-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.9rem; }
-        .data-table th { background: #333; color: var(--accent); text-align: left; padding: 12px; }
-        .data-table td { padding: 12px; border: 1px solid var(--border); }
-        .data-table tr:nth-child(even) { background: #222; }
+        .notice-box { background: rgba(255, 107, 0, 0.1); border-left: 4px solid var(--accent); padding: 15px; margin-bottom: 20px; font-size: 0.9rem; }
+        .danger-box { background: rgba(255, 68, 68, 0.1); border-left: 4px solid var(--danger); padding: 15px; margin-bottom: 20px; font-size: 0.9rem; }
 
-        .category-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
-        .category-card { background: var(--bg-card); padding: 20px; border: 1px solid var(--border); text-align: center; cursor: pointer; transition: 0.3s; }
-        .category-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+        h2 { margin: 30px 0 15px; border-bottom: 1px solid var(--border); padding-bottom: 5px; color: var(--accent); }
+        p { margin-bottom: 15px; color: #ddd; }
+        ul { margin-left: 20px; margin-bottom: 15px; }
 
-        @media (max-width: 800px) {
+        .staff-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .staff-tag { background: #333; padding: 5px 10px; border-radius: 3px; font-size: 0.85rem; border-left: 2px solid var(--accent); }
+
+        @media (max-width: 900px) {
             .sidebar { display: none; }
             .infobox { float: none; width: 100%; margin: 20px 0; }
-            #wikiSearch { width: 150px; }
         }
     </style>
 </head>
 <body>
 
     <nav class="top-nav">
-        <div class="logo" onclick="loadPage('home')">TOWER<span>FRONT</span> WIKI</div>
+        <div class="logo" onclick="loadPage('home')">TOWER<span>FRONT</span> // WIKI</div>
         <div class="search-container">
-            <input type="text" id="wikiSearch" placeholder="Search the front..." onkeyup="handleSearch(this.value)">
-            <div id="searchResults"></div>
+            <input type="text" id="wikiSearch" placeholder="Search data files..." onkeyup="handleSearch(this.value)">
         </div>
     </nav>
 
     <div class="wiki-wrapper">
         <aside class="sidebar">
             <div class="sidebar-section">
-                <h3>Navigation</h3>
+                <h3>Project Files</h3>
                 <ul>
-                    <li><a onclick="loadPage('home')">Main Page</a></li>
-                    <li><a onclick="loadPage('towers')">Towers List</a></li>
-                    <li><a onclick="loadPage('enemies')">Enemy Database</a></li>
+                    <li><a onclick="loadPage('home')">Project Overview</a></li>
+                    <li><a onclick="loadPage('history')">Game History</a></li>
+                    <li><a onclick="loadPage('lore')">Lore & Setting</a></li>
+                    <li><a onclick="loadPage('security')">Community Security</a></li>
                 </ul>
             </div>
             <div class="sidebar-section">
-                <h3>Towers</h3>
-                <ul id="sidebar-towers"></ul>
+                <h3>Mechanics</h3>
+                <ul>
+                    <li><a onclick="loadPage('contracts')">Contract Points</a></li>
+                    <li><a onclick="loadPage('release')">Release Intel</a></li>
+                </ul>
             </div>
             <div class="sidebar-section">
-                <h3>Enemies</h3>
-                <ul id="sidebar-enemies"></ul>
+                <h3>Personnel</h3>
+                <ul>
+                    <li><a onclick="loadPage('team')">Development Team</a></li>
+                    <li><a onclick="loadPage('ardy')">Ardy (Lead UI)</a></li>
+                </ul>
             </div>
         </aside>
 
         <main class="content" id="main-content">
-            <!-- Content Injected by JS -->
+            <!-- Content Injected Here -->
         </main>
     </div>
 
     <script>
-        /* --- DATABASE: Add your game info here --- */
         const wikiData = {
             home: {
-                title: "Welcome to Tower Front Wiki",
+                title: "Tower Front",
                 content: `
-                    <p>This is the official intelligence database for the <strong>Tower Front</strong> conflict. Access tactical data on defensive units and enemy threats.</p>
-                    <div class="category-grid">
-                        <div class="category-card" onclick="loadPage('towers')">🛡️<br>Towers</div>
-                        <div class="category-card" onclick="loadPage('enemies')">💀<br>Enemies</div>
-                        <div class="category-card" onclick="loadPage('operator')">🆕<br>New Unit: Operator</div>
+                    <div class="notice-box"><strong>Current Status:</strong> Development Phase. Estimated Release: March 2026.</div>
+                    <p><strong>Tower Front</strong> is an upcoming tactical tower defense game focused on strategic placement and deep progression mechanics. Originally started as a simple defense concept by lead developer <strong>Nick</strong>, the project has evolved into a massive operation featuring professional UI, custom music, and advanced game technologies.</p>
+                    <p>As of early 2026, the community has grown to over <strong>750 members</strong> on Discord, supported by a dedicated multi-disciplinary development team.</p>
+                    <h2>Key Features</h2>
+                    <ul>
+                        <li><strong>Advanced Systems:</strong> Professional-grade game tech and systems.</li>
+                        <li><strong>Fair Play:</strong> Committed to a non-pay-to-win environment.</li>
+                        <li><strong>Deep Progression:</strong> Unlockable towers via the Contract system.</li>
+                        <li><strong>High Fidelity:</strong> Updated assets, quality animations, and custom music.</li>
+                    </ul>
+                `
+            },
+            history: {
+                title: "Development History",
+                content: `
+                    <p>The Tower Front journey began roughly a year ago. In the early stages, the project faced significant management challenges. The leadership team, including Nick, were new to community management, which led to several early setbacks.</p>
+                    <h2>Community Evolution</h2>
+                    <p>The project survived multiple raids and outside hostility. Rather than folding under pressure, the team restructured, leading to a safer and more organized community. By the end of 2025, the "Dev Team" emerged as a professional unit, transforming the game from a hobby project into a high-potential title.</p>
+                    <h2>Milestones</h2>
+                    <ul>
+                        <li><strong>2025 Q4:</strong> Reached 750 Discord members.</li>
+                        <li><strong>2026 Q1:</strong> Gameplay trailer released on Nicky's official account.</li>
+                        <li><strong>Current:</strong> Finalizing balance updates and skin systems for launch.</li>
+                    </ul>
+                `
+            },
+            lore: {
+                title: "Lore & Setting",
+                content: `
+                    <aside class="infobox">
+                        <div class="infobox-title">World Data</div>
+                        <table>
+                            <tr><td>Era</td><td>2033 AD</td></tr>
+                            <tr><td>Location</td><td>Antarctica Base</td></tr>
+                            <tr><td>Primary Tech</td><td>Time Travel</td></tr>
+                            <tr><td>Threat</td><td>Chaos Fragments</td></tr>
+                        </table>
+                    </aside>
+                    <p>The world of Tower Front is set in the year <strong>2033</strong>. The narrative involves high-stakes science fiction elements including <strong>Time Travel</strong> and the containment of <strong>Chaos Fragments</strong>.</p>
+                    <h2>The Base</h2>
+                    <p>The main player hub (The Lobby) is situated in a highly classified underground facility in <strong>Antarctica</strong>. This base serves as the staging ground for all defensive operations against the organizations attempting to weaponize the fragments.</p>
+                `
+            },
+            contracts: {
+                title: "Contract Points",
+                content: `
+                    <div class="notice-box">Contract progress is saved permanently across your account.</div>
+                    <p><strong>Contract Points (CP)</strong> are the primary progression currency in Tower Front. They are designed to ensure the game remains fair and rewarding for long-term players.</p>
+                    <h2>How it Works</h2>
+                    <ul>
+                        <li><strong>Earning:</strong> Points are earned by completing matches.</li>
+                        <li><strong>Investment:</strong> You do not buy towers instantly. Instead, you "invest" points into specific tower contracts over time.</li>
+                        <li><strong>Unlocking:</strong> Once a contract is 100% completed, the tower is unlocked for permanent use.</li>
+                    </ul>
+                `
+            },
+            team: {
+                title: "Development Team",
+                content: `
+                    <p>Tower Front is built by a specialized team of developers. Current departments include:</p>
+                    <div class="staff-grid">
+                        <div class="staff-tag">Lead Developer: Nick</div>
+                        <div class="staff-tag">UI Design: Ardy</div>
+                        <div class="staff-tag">Scripters Team</div>
+                        <div class="staff-tag">Music Composers</div>
+                        <div class="staff-tag">Modelers Team</div>
+                        <div class="staff-tag">Builders Team</div>
+                        <div class="staff-tag">Voice Acting Team</div>
+                        <div class="staff-tag">VFX Artists</div>
+                        <div class="staff-tag">Concept Artists</div>
+                        <div class="staff-tag">QA Testers</div>
                     </div>
+                    <p style="margin-top:20px">The team also recently hosted an <strong>Art Contest</strong>, won by a community member described as being "built different."</p>
                 `
             },
-            towers: {
-                title: "Defensive Towers",
+            ardy: {
+                title: "Personnel: Ardy",
                 content: `
-                    <p>Towers are your primary defense against the encroaching waves. Each unit has specific strengths.</p>
-                    <table class="data-table">
-                        <tr><th>Unit</th><th>Type</th><th>Primary Use</th></tr>
-                        <tr onclick="loadPage('operator')" style="cursor:pointer"><td>Operator</td><td>SMG / Stealth</td><td>Rapid fire & Detection</td></tr>
-                        <tr><td>Hunter</td><td>Sniper</td><td>Extreme Range</td></tr>
-                        <tr><td>Juggernaut</td><td>Heavy</td><td>Area Damage</td></tr>
-                    </table>
+                    <aside class="infobox">
+                        <div class="infobox-title">Staff Profile</div>
+                        <table>
+                            <tr><td>Rank</td><td>Lead UI Designer</td></tr>
+                            <tr><td>Secondary</td><td>Voice Actor</td></tr>
+                            <tr><td>Joined</td><td>Project Mid-Phase</td></tr>
+                        </table>
+                    </aside>
+                    <p><strong>Ardy</strong> joined the project after messaging Nick to offer help. Despite initially planning to stay for a short duration, Ardy recognized the potential of Tower Front and became a pillar of the development team.</p>
+                    <h2>Responsibilities</h2>
+                    <ul>
+                        <li><strong>UI Design:</strong> The primary designer for the game's interface and menus.</li>
+                        <li><strong>Voice Acting:</strong> Providing voices for various systems, including the project's Narrator.</li>
+                        <li><strong>Building:</strong> Contributed heavily to building game assets.</li>
+                        <li><strong>Art:</strong> Occasional drawing and concept work.</li>
+                    </ul>
                 `
             },
-            enemies: {
-                title: "Enemy Database",
+            security: {
+                title: "Community Security",
                 content: `
-                    <p>Current known threats identified in the sector.</p>
-                    <table class="data-table">
-                        <tr><th>Threat</th><th>Class</th><th>Weakness</th></tr>
-                        <tr onclick="loadPage('venitant')" style="cursor:pointer"><td>Venitant</td><td>Shield Breaker</td><td>Rapid Fire</td></tr>
-                        <tr><td>Trojan Horse</td><td>Spawner</td><td>High Burst Damage</td></tr>
-                    </table>
+                    <div class="danger-box"><strong>ALERT:</strong> This section contains archived data on individuals banned for malicious activity.</div>
+                    <p>The development of Tower Front has seen its share of internal threats. The most notable case involved a former contributor known as <strong>Neathean</strong>.</p>
+                    <h2>Incident Report: Neathean</h2>
+                    <ul>
+                        <li><strong>Charges:</strong> Theft of assets, faking legal documents, and unauthorized account access (Discord/Roblox).</li>
+                        <li><strong>Attempted Sabotage:</strong> After being banned, he attempted to ruin the project's reputation and sell game assets without permission.</li>
+                        <li><strong>Status:</strong> Permanently blacklisted. The community is now managed with stricter verification to prevent such incidents.</li>
+                    </ul>
+                    <p>Another unknown individual was also involved in asset theft, highlighting the importance of the team's move toward professional security systems in early 2026.</p>
                 `
             },
-            operator: {
-                title: "Operator",
-                isUnit: true,
-                type: "Tower",
-                stats: { cost: "$450", rarity: "Rare", damage: "5", range: "Short" },
-                description: "The Operator is a specialized tactical unit. It uses high-speed SMG fire to shred light armor and can detect cloaked enemies before they reach the frontline.",
-                levels: [
-                    { lvl: 1, cost: "-", effect: "Standard SMG fire" },
-                    { lvl: 2, cost: "$200", effect: "+15% Fire rate" },
-                    { lvl: 3, cost: "$550", effect: "Unlocked: Stealth Detection" }
-                ]
-            },
-            venitant: {
-                title: "Venitant",
-                isUnit: true,
-                type: "Enemy",
-                stats: { health: "1,200", speed: "Fast", threat: "High" },
-                description: "The Venitant is a terrifying shield-breaker. It ignores the first 3 layers of energy shielding, making it a priority target for ground units.",
-                levels: [
-                    { lvl: "A", cost: "Normal", effect: "Standard spawn" },
-                    { lvl: "B", cost: "Enraged", effect: "Spawns with 50% extra speed" }
-                ]
+            release: {
+                title: "Release Intelligence",
+                content: `
+                    <p>The official release is targeted for <strong>March 2026</strong>. The launch will be rolling out in phases to ensure stability.</p>
+                    <h2>Launch Roadmap</h2>
+                    <ul>
+                        <li><strong>Phase 1:</strong> Balance updates, core towers, and the skin system.</li>
+                        <li><strong>Phase 2:</strong> Official Gameplay Trailer (Directed by Nicky).</li>
+                        <li><strong>Phase 3:</strong> "Harder Modes" and seasonal events.</li>
+                        <li><strong>End of Year:</strong> Major expansion update.</li>
+                    </ul>
+                `
             }
         };
 
-        /* --- LOGIC: The Engine that runs the wiki --- */
-
-        // 1. Initial Load
-        window.onload = () => {
-            loadPage('home');
-            renderSidebars();
-        };
-
-        // 2. Page Router
         function loadPage(id) {
             const page = wikiData[id];
             const container = document.getElementById('main-content');
             
-            // Highlight active link in sidebar
-            document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
-            
-            if (!page) {
-                container.innerHTML = `<h1>404 Page Not Found</h1>`;
-                return;
-            }
+            if (!page) return;
 
-            if (page.isUnit) {
-                // Render a Unit Page (Tower or Enemy)
-                container.innerHTML = `
-                    <nav class="breadcrumbs">Home / ${page.type}s / ${page.title}</nav>
-                    <div class="page-header"><h1>${page.title}</h1><hr></div>
-                    <aside class="infobox">
-                        <div class="infobox-title">${page.title}</div>
-                        <div class="infobox-img">NO_IMAGE</div>
-                        <table>
-                            ${Object.entries(page.stats).map(([key, val]) => `<tr><td>${key.toUpperCase()}</td><td>${val}</td></tr>`).join('')}
-                        </table>
-                    </aside>
-                    <p>${page.description}</p>
-                    <h2>Unit Capabilities</h2>
-                    <table class="data-table">
-                        <thead><tr><th>Level</th><th>Cost/State</th><th>Effect</th></tr></thead>
-                        <tbody>
-                            ${page.levels.map(l => `<tr><td>${l.lvl}</td><td>${l.cost}</td><td>${l.effect}</td></tr>`).join('')}
-                        </tbody>
-                    </table>
-                `;
-            } else {
-                // Render a Standard Content Page
-                container.innerHTML = `
-                    <div class="page-header"><h1>${page.title}</h1><hr></div>
+            container.innerHTML = `
+                <div class="page-header">
+                    <h1>${page.title}</h1>
+                    <hr>
+                </div>
+                <div class="page-body">
                     ${page.content}
-                `;
-            }
+                </div>
+            `;
             container.scrollTop = 0;
-            document.getElementById('searchResults').style.display = 'none';
-            document.getElementById('wikiSearch').value = '';
-        }
-
-        // 3. Search System
-        function handleSearch(query) {
-            const resultsDiv = document.getElementById('searchResults');
-            if (query.length < 1) {
-                resultsDiv.style.display = 'none';
-                return;
-            }
-
-            const matches = Object.keys(wikiData).filter(key => 
-                wikiData[key].title.toLowerCase().includes(query.toLowerCase())
-            );
-
-            if (matches.length > 0) {
-                resultsDiv.style.display = 'block';
-                resultsDiv.innerHTML = matches.map(m => `
-                    <div class="search-item" onclick="loadPage('${m}')">${wikiData[m].title}</div>
-                `).join('');
-            } else {
-                resultsDiv.style.display = 'none';
-            }
-        }
-
-        // 4. Sidebar Dynamic Generation
-        function renderSidebars() {
-            const towerList = document.getElementById('sidebar-towers');
-            const enemyList = document.getElementById('sidebar-enemies');
-
-            Object.keys(wikiData).forEach(key => {
-                const item = wikiData[key];
-                if (item.type === "Tower") {
-                    towerList.innerHTML += `<li><a onclick="loadPage('${key}')">${item.title}</a></li>`;
-                } else if (item.type === "Enemy") {
-                    enemyList.innerHTML += `<li><a onclick="loadPage('${key}')">${item.title}</a></li>`;
-                }
+            
+            // Mark sidebar link as active
+            document.querySelectorAll('.sidebar a').forEach(a => {
+                a.style.color = (a.getAttribute('onclick').includes(`'${id}'`)) ? 'var(--accent)' : '';
             });
         }
+
+        function handleSearch(query) {
+            if (event.key === "Enter") {
+                const keys = Object.keys(wikiData);
+                const match = keys.find(k => wikiData[k].title.toLowerCase().includes(query.toLowerCase()));
+                if (match) loadPage(match);
+            }
+        }
+
+        // Default Load
+        window.onload = () => loadPage('home');
     </script>
 </body>
 </html>
