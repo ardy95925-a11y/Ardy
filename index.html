@@ -3,83 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tower Front | Intelligence Database</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <title>TOWER FRONT // DATABASE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #050505; --surface: #0f0f0f; --accent: #ff6b00; 
-            --accent-glow: rgba(255, 107, 0, 0.2); --text: #d0d0d0; --border: #222;
+            --bg: #050607; --surface: #0a0c0e; --accent: #ff6b00; 
+            --accent-dim: rgba(255, 107, 0, 0.15); --text: #c4ced4; --border: #1e252b;
         }
+
+        /* Tactical CRT Overlay */
+        body::before {
+            content: " "; display: block; position: fixed; top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            z-index: 9999; pointer-events: none; background-size: 100% 3px, 3px 100%;
+        }
+
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+        body { font-family: 'JetBrains Mono', monospace; background: var(--bg); color: var(--text); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
 
-        /* Top Bar */
-        .header { height: 60px; background: #000; border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 25px; justify-content: space-between; }
-        .logo { font-family: 'Orbitron', sans-serif; font-weight: 700; color: #fff; letter-spacing: 2px; cursor: pointer; }
+        /* Top Nav */
+        header { height: 60px; background: #000; border-bottom: 2px solid var(--border); display: flex; align-items: center; padding: 0 20px; justify-content: space-between; }
+        .logo { font-family: 'Orbitron', sans-serif; font-weight: 700; color: #fff; letter-spacing: 3px; cursor: pointer; }
         .logo span { color: var(--accent); }
-        #search { background: var(--surface); border: 1px solid var(--border); padding: 8px 15px; border-radius: 4px; color: #fff; width: 300px; font-family: 'JetBrains Mono'; }
+        .search-wrap { position: relative; }
+        #search { background: #000; border: 1px solid var(--accent); padding: 8px 12px; color: var(--accent); width: 300px; outline: none; }
 
-        /* Sidebar */
+        /* Main Layout */
         .wrapper { display: flex; flex: 1; overflow: hidden; }
-        .sidebar { width: 280px; background: var(--surface); border-right: 1px solid var(--border); padding: 25px; overflow-y: auto; }
-        .sidebar h3 { font-size: 0.65rem; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; margin: 25px 0 10px; }
-        .sidebar ul { list-style: none; }
-        .sidebar a { display: block; padding: 8px 0; color: #888; text-decoration: none; font-size: 0.9rem; transition: 0.2s; cursor: pointer; }
-        .sidebar a:hover { color: #fff; padding-left: 5px; }
-
-        /* Main Content */
-        .main { flex: 1; padding: 60px; overflow-y: auto; background: radial-gradient(circle at top right, #0f0f0f, #050505); }
-        .page-head h1 { font-family: 'Orbitron', sans-serif; font-size: 3rem; color: #fff; margin-bottom: 5px; }
-        .page-head p { color: var(--accent); font-family: 'JetBrains Mono'; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 3px; margin-bottom: 30px; }
         
-        /* Elements */
-        .infobox { float: right; width: 300px; background: #111; border: 1px solid var(--border); padding: 20px; margin-left: 30px; border-radius: 8px; }
-        .infobox-title { background: var(--accent); color: #000; text-align: center; font-weight: 800; padding: 5px; margin: -20px -20px 20px -20px; font-size: 0.8rem; text-transform: uppercase; }
+        .sidebar { width: 300px; background: var(--surface); border-right: 1px solid var(--border); padding: 20px; overflow-y: auto; }
+        .sidebar-cat { color: var(--accent); font-size: 0.7rem; font-weight: bold; letter-spacing: 2px; margin: 20px 0 10px; opacity: 0.6; }
+        .sidebar-link { display: block; padding: 10px; border-left: 2px solid transparent; color: #6a7c89; text-decoration: none; cursor: pointer; transition: 0.2s; font-size: 0.85rem; }
+        .sidebar-link:hover { background: var(--accent-dim); color: #fff; border-left-color: var(--accent); }
+
+        .content { flex: 1; padding: 50px 5%; overflow-y: auto; position: relative; }
+        .breadcrumb { font-size: 0.7rem; color: var(--accent); margin-bottom: 10px; letter-spacing: 2px; }
+        
+        /* Content Components */
+        h1 { font-family: 'Orbitron', sans-serif; font-size: 2.5rem; color: #fff; margin-bottom: 5px; }
+        .subtitle { font-size: 0.9rem; color: #6a7c89; margin-bottom: 30px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+        
+        .infobox { float: right; width: 320px; background: #000; border: 1px solid var(--accent); padding: 20px; margin-left: 30px; box-shadow: 0 0 15px var(--accent-dim); }
+        .infobox-header { background: var(--accent); color: #000; font-weight: bold; text-align: center; margin: -20px -20px 20px -20px; padding: 5px; font-size: 0.7rem; }
+        .infobox-img { width: 100%; height: 150px; background: #111; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; border: 1px solid #222; color: #333; }
         .infobox table { width: 100%; font-size: 0.8rem; }
-        .infobox td { padding: 8px 0; border-bottom: 1px solid #222; }
-        .notice-box { background: var(--accent-glow); border-left: 3px solid var(--accent); padding: 15px; margin-bottom: 25px; font-size: 0.9rem; }
-        .danger-box { background: rgba(255,0,0,0.1); border-left: 3px solid #ff4444; padding: 15px; margin-bottom: 25px; font-size: 0.9rem; color: #ff8888; }
-        
-        .staff-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
-        .staff-card { background: #151515; padding: 15px; border: 1px solid var(--border); border-radius: 4px; }
-        .staff-card h4 { color: var(--accent); margin-bottom: 5px; }
+        .infobox td { padding: 8px 0; border-bottom: 1px solid #111; }
+        .infobox td:first-child { color: var(--accent); font-weight: bold; width: 40%; }
 
-        @media (max-width: 900px) { .sidebar { display: none; } .main { padding: 30px; } .infobox { float: none; width: 100%; margin: 20px 0; } }
+        .hud-box { background: var(--accent-dim); border: 1px solid var(--accent); padding: 15px; margin: 20px 0; font-size: 0.9rem; }
+        .danger-zone { background: rgba(255, 0, 0, 0.1); border: 1px solid #ff4444; color: #ff8888; padding: 15px; margin: 20px 0; }
+
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 20px 0; }
+        .stat-card { background: var(--surface); border: 1px solid var(--border); padding: 15px; text-align: center; cursor: pointer; }
+        .stat-card:hover { border-color: var(--accent); }
+        .stat-card .label { display: block; font-size: 0.6rem; color: var(--accent); margin-bottom: 5px; }
+        .stat-card .value { font-size: 1.1rem; color: #fff; font-weight: bold; }
+
+        .progress-bar { height: 10px; background: #111; border: 1px solid var(--border); margin-top: 5px; }
+        .progress-fill { height: 100%; background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+
+        @media (max-width: 1000px) { .sidebar { display: none; } .infobox { float: none; width: 100%; margin: 20px 0; } }
     </style>
 </head>
 <body>
 
-    <header class="header">
-        <div class="logo" onclick="loadPage('home')">TOWER<span>FRONT</span></div>
-        <input type="text" id="search" placeholder="SEARCH DATABASE...">
+    <header>
+        <div class="logo" onclick="loadPage('home')">TOWER<span>FRONT</span> // DATA</div>
+        <div class="search-wrap">
+            <input type="text" id="search" placeholder="SEARCH DATABASE..." autocomplete="off">
+        </div>
     </header>
 
     <div class="wrapper">
-        <aside class="sidebar">
-            <h3>Intelligence</h3>
-            <ul>
-                <li><a onclick="loadPage('home')">Project Overview</a></li>
-                <li><a onclick="loadPage('history')">Development History</a></li>
-                <li><a onclick="loadPage('lore')">Lore & Timeline</a></li>
-            </ul>
-            <h3>Operational Data</h3>
-            <ul>
-                <li><a onclick="loadPage('mechanics')">Game Mechanics</a></li>
-                <li><a onclick="loadPage('security')">Security Archive</a></li>
-            </ul>
-            <h3>Personnel</h3>
-            <ul>
-                <li><a onclick="loadPage('team')">The Dev Team</a></li>
-                <li><a onclick="loadPage('ardy')">Ardy (UI Lead)</a></li>
-            </ul>
+        <aside class="sidebar" id="sidebar">
+            <!-- Sidebar injected by JS -->
         </aside>
 
-        <main class="main" id="app">
-            <!-- Content Injected Here -->
+        <main class="content" id="app">
+            <!-- Content injected by JS -->
         </main>
     </div>
 
-    <!-- Scripts -->
     <script src="wiki-data.js"></script>
     <script>
         function loadPage(id) {
@@ -88,29 +92,47 @@
             if(!data) return;
 
             app.innerHTML = `
-                <div class="page-head">
-                    <h1>${data.title}</h1>
-                    <p>${data.subtitle || 'Tactical File'}</p>
-                </div>
-                <div class="page-body">
-                    ${data.content}
-                </div>
+                <div class="breadcrumb">DATABASE > ${data.category} > ${id.toUpperCase()}</div>
+                <h1>${data.title}</h1>
+                <div class="subtitle">${data.subtitle}</div>
+                <div class="page-content">${data.content}</div>
             `;
             app.scrollTop = 0;
         }
 
-        // Simple Search
-        document.getElementById('search').addEventListener('keyup', function(e) {
-            if(e.key === 'Enter') {
-                const q = this.value.toLowerCase();
-                const found = Object.keys(wikiData).find(key => 
-                    wikiData[key].title.toLowerCase().includes(q)
-                );
-                if(found) loadPage(found);
+        function buildSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const categories = {};
+
+            Object.keys(wikiData).forEach(key => {
+                const cat = wikiData[key].category;
+                if(!categories[cat]) categories[cat] = [];
+                categories[cat].push({ key, title: wikiData[key].title });
+            });
+
+            let html = '';
+            for(let cat in categories) {
+                html += `<div class="sidebar-cat">${cat}</div>`;
+                categories[cat].forEach(item => {
+                    html += `<a class="sidebar-link" onclick="loadPage('${item.key}')">${item.title}</a>`;
+                });
             }
+            sidebar.innerHTML = html;
+        }
+
+        document.getElementById('search').addEventListener('input', function(e) {
+            const q = this.value.toLowerCase();
+            if(q.length < 2) return;
+            const found = Object.keys(wikiData).find(key => 
+                wikiData[key].title.toLowerCase().includes(q)
+            );
+            if(found && e.inputType === 'insertText') loadPage(found);
         });
 
-        window.onload = () => loadPage('home');
+        window.onload = () => {
+            buildSidebar();
+            loadPage('home');
+        };
     </script>
 </body>
 </html>
